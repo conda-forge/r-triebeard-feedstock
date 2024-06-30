@@ -1,6 +1,5 @@
 {% set version = "0.4.1" %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-triebeard
@@ -13,8 +12,7 @@ source:
   sha256: 192f2fef6341e43bd56ef4f9841e813e07be990f4ffcf38c5606259630efe0f7
 
 build:
-  merge_build_host: true  # [win]
-  number: 1
+  number: 2
   rpaths:
     - lib/R/lib/
     - lib/
@@ -22,7 +20,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}          # [not win]
+    - {{ stdlib("c") }}            # [not win]
     - {{ compiler('m2w64_c') }}    # [win]
+    - {{ stdlib("m2w64_c") }}      # [win]
     - {{ compiler('cxx') }}        # [not win]
     - {{ compiler('m2w64_cxx') }}  # [win]
     - {{ posix }}filesystem        # [win]
@@ -37,7 +37,6 @@ requirements:
     - r-rcpp
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-rcpp
 
 test:
